@@ -5,7 +5,7 @@ on:
 name: Publish binaries to release
 
 jobs:
-  publish:
+  publish-most:
     name: Publish for ${{ matrix.target }}
     runs-on: ubuntu-latest
     strategy:
@@ -30,6 +30,38 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           use-cross: true
+          command: build
+          args: --release --locked --target ${{ matrix.target }}
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.PUBLISH_TOKEN }}
+          file: target/release/${{ matrix.artifact_name }}
+          asset_name: mieli-${{ matrix.target }}
+          tag: ${{ github.ref }}
+
+  publish-macos:
+    name: Publish for ${{ matrix.target }}
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        target: [
+          aarch64-apple-darwin, x86_64-apple-darwin, # macOS
+        ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+          override: true
+          target: ${{ matrix.target }}
+      - name: Build target
+        uses: actions-rs/cargo@v1
+        with:
+          use-cross: false
           command: build
           args: --release --locked --target ${{ matrix.target }}
       - name: Upload binaries to release
