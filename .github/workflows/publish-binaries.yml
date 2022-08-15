@@ -6,7 +6,6 @@ name: Publish binaries to release
 
 jobs:
   publish:
-    name: Publish for ${{ matrix.os }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -16,6 +15,7 @@ jobs:
           aarch64-pc-windows-msvc, x86_64-pc-windows-gnu, x86_64-pc-windows-msvc, # Windows
           x86_64-unknown-freebsd, x86_64-unknown-netbsd # BSD
         ]
+    name: Publish for ${{ matrix.os }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
