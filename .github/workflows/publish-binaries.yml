@@ -6,6 +6,7 @@ name: Publish binaries to release
 
 jobs:
   publish:
+    name: Publish for ${{ matrix.target }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -15,7 +16,6 @@ jobs:
           # aarch64-pc-windows-msvc, x86_64-pc-windows-gnu, x86_64-pc-windows-msvc, # Windows
           # x86_64-unknown-freebsd, x86_64-unknown-netbsd # BSD
         ]
-    name: Publish for ${{ matrix.os }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -37,5 +37,5 @@ jobs:
         with:
           repo_token: ${{ secrets.PUBLISH_TOKEN }}
           file: target/release/${{ matrix.artifact_name }}
-          asset_name: ${{ matrix.asset_name }}
+          asset_name: mieli-${{ matrix.target }}
           tag: ${{ github.ref }}
