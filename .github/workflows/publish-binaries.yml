@@ -68,6 +68,6 @@ jobs:
         uses: svenstaro/upload-release-action@v1-release
         with:
           repo_token: ${{ secrets.PUBLISH_TOKEN }}
-          file: target/release/${{ matrix.artifact_name }}
+          file: target/release/${{ matrix.target }}/mieli
           asset_name: mieli-${{ matrix.target }}
           tag: ${{ github.ref }}
