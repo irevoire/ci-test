@@ -6,15 +6,15 @@ name: Publish binaries to release
 
 jobs:
   publish-most:
-    name: Publish for ${{ matrix.target }}
-    runs-on: ubuntu-latest
+    name: Publish for ${{ matrix.conf.target}}
+    runs-on: ${{ matrix.conf.os }}
     strategy:
       matrix:
         conf: [
-          { target: aarch64-unknown-linux-gnu} , { target: i686-unknown-linux-gnu }, { target: x86_64-unknown-linux-gnu }, # Linux
+          { os: ubuntu-latest, target: aarch64-unknown-linux-gnu}, { os: ubuntu-latest, target: i686-unknown-linux-gnu }, { os: ubuntu-latest, target: x86_64-unknown-linux-gnu }, # Linux
           # { target: aarch64-apple-darwin }, { target: x86_64-apple-darwin }, # macOS
-          { target: i686-pc-windows-gnu }, { target: x86_64-pc-windows-gnu }, # Windows
-          { target: x86_64-unknown-freebsd }, { target: x86_64-unknown-netbsd } # BSD
+          { os: ubuntu-latest, target: i686-pc-windows-gnu }, { os: ubuntu-latest, target: x86_64-pc-windows-gnu }, # Windows
+          { os: ubuntu-latest, target: x86_64-unknown-freebsd }, { os: ubuntu-latest, target: x86_64-unknown-netbsd } # BSD
         ]
     steps:
       - name: Checkout
