@@ -37,6 +37,7 @@ jobs:
           ls
           cd target; ls
           cd ${{ matrix.conf.target }}; ls
+          cd release; ls
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v1-release
         with:
