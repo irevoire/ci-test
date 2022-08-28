@@ -31,13 +31,7 @@ jobs:
         with:
           use-cross: ${{ matrix.conf.use-cross }}
           command: build
-          args: --release --locked --target ${{ matrix.conf.target }}
-      - name: Where are you writing your shit windows!?
-        run: |
-          ls target/${{ matrix.conf.target }}/release/bin/ || true 
-          # we're going to move the binary to the current directory
-          mv target/${{ matrix.conf.target }}/release/bin/ci-test . || true # windows put the binary in this directory
-          mv target/${{ matrix.conf.target }}/release/ci-test . || true
+          args: --release --locked --target ${{ matrix.conf.target }} -Z unstable-options --out-dir .
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v1-release
         with:
